@@ -1,0 +1,24 @@
+version: "3.2"
+
+services:
+  serverless:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: serverless offline start
+    ports:
+      - "3000:3000"
+      - "8008:8008"
+      - "3002:3002"
+    networks:
+      - clima-api-serverless
+    volumes:
+      - .:/var/app/clima-api
+      - /var/app/clima-api/node_modules
+      - /var/app/clima-api/.dynamodb
+    env_file:
+      - .env # it will overwrite .env file content
+
+networks:
+  clima-api-serverless:
+    driver: bridge
