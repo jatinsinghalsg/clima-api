@@ -5,9 +5,9 @@ import axios from "axios";
 import {AxiosResponse, AxiosRequestConfig} from "axios";
 import { StatusCode } from '../../enums/status-code.enum';
 import { ResponseMessage } from '../../enums/response-message.enum';
+import { TumeloImpl } from '../../models/tumelo.model';
 
-export const token: APIGatewayProxyHandler = async (): Promise<APIGatewayProxyResult> => {
-
+export const getSubscribedOrganizations: APIGatewayProxyHandler = async (): Promise<APIGatewayProxyResult> => {
   const {
     TUMELO_URL,
     TUMELO_HABITAT_ID,
@@ -15,8 +15,12 @@ export const token: APIGatewayProxyHandler = async (): Promise<APIGatewayProxyRe
     TUMELO_PASSWORD,
   } = process.env;
 
+  const tumelo = new TumeloImpl(TUMELO_URL);
+  tumelo.setAuthToken();
+
   const config: AxiosRequestConfig = {
-    url: TUMELO_URL,
+    baseURL: TUMELO_URL,
+    url: '/authenticate',
     method: 'POST',
     data: {
       habitatId: TUMELO_HABITAT_ID,
@@ -24,7 +28,8 @@ export const token: APIGatewayProxyHandler = async (): Promise<APIGatewayProxyRe
       password: TUMELO_PASSWORD,
     },
   };
-  const response = new ResponseModel()
+  console.log(config);
+  const response = new ResponseModel();
   try {
     const axiosResponse: AxiosResponse = await axios.request(config);
     response.setCode(StatusCode.OK);

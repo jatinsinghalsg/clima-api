@@ -1,4 +1,4 @@
-// Token functions
-export { token } from './src/actions/token/generate.action';
+// Tumelo functions
+export { getSubscribedOrganizations } from './src/actions/tumelo/getSubscribedOrganizations.action';
 
 

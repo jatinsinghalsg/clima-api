@@ -1,14 +1,14 @@
 export default {
-    token: {
-        handler: 'handler.token',
-        events: [
-            {
-                http: {
-                    method: 'GET',
-                    path: 'token/generate',
-                    cors: true
-                }
-            }
-        ]
-    },
-}
+  token: {
+    handler: 'handler.getSubscribedOrganizations',
+    events: [
+      {
+        http: {
+          method: 'GET',
+          path: 'tumelo/subscribed/organizations',
+          cors: true,
+        },
+      },
+    ],
+  },
+};

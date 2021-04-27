@@ -4,7 +4,7 @@ import type { AWS } from '@serverless/typescript';
 import functions from './resources/functions';
 
 const serverlessConfiguration: AWS = {
-  service: 'project-dashboard',
+  service: 'clima-api',
   frameworkVersion: '2',
   custom: {
     region: '${opt:region, self:provider.region}',
@@ -39,7 +39,7 @@ const serverlessConfiguration: AWS = {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       REGION: '${self:custom.region}',
       STAGE: '${self:custom.stage}',
-      TUMELO_URL: 'https://api.prod.tumelo.com/v1/authenticate',
+      TUMELO_URL: 'https://api.prod.tumelo.com/v1',
       TUMELO_HABITAT_ID: '8f5d6c1c-24c3-4d3f-83bb-91b379ad8cad',
       TUMELO_USERNAME: 'iclim-production',
       TUMELO_PASSWORD: 'fV6Antgn-PMfvcwlNJTT',
