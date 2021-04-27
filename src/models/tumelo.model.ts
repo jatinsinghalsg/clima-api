@@ -13,11 +13,7 @@ export class TumeloImpl implements Tumelo {
   }
 
   public async setAuthToken(): Promise<void> {
-    const {
-      TUMELO_HABITAT_ID,
-      TUMELO_USERNAME,
-      TUMELO_PASSWORD,
-    } = process.env;
+    const { TUMELO_HABITAT_ID, TUMELO_USERNAME, TUMELO_PASSWORD } = process.env;
 
     const config: Axios.AxiosRequestConfig = {
       url: '/authenticate',
@@ -29,13 +25,37 @@ export class TumeloImpl implements Tumelo {
       },
     };
     try {
-        const authResponse: Axios.AxiosResponse = await this.client.request(
-          config
-        );
-        this.token = authResponse.data.token;
+      const authResponse: Axios.AxiosResponse = await this.client.request(
+        config
+      );
+      this.token = authResponse.data.token;
     } catch (e) {
-        throw e;
+      console.log(e);
+      throw e;
     }
-    
+  }
+
+  public async getSubscribedOrganizations(): Promise<any> {
+    const { TUMELO_HABITAT_ID } = process.env;
+    try {
+      await this.setAuthToken();
+      console.log(this.token);
+      const config: Axios.AxiosRequestConfig = {
+        url: `habitats/${TUMELO_HABITAT_ID}/instruments/GBICLIM00002/organizationBreakdown`,
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${this.token}`,
+        },
+      };
+      console.log(config);
+      const authResponse: Axios.AxiosResponse = await this.client.request(
+        config
+      );
+      return authResponse.data;
+    } catch (e) {
+        console.log(e);
+      throw e;
+    }
   }
 }
