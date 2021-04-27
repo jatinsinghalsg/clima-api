@@ -1,20 +1,31 @@
-import { APIGatewayProxyHandler, APIGatewayProxyResult } from 'aws-lambda';
+import {
+  APIGatewayEvent,
+  APIGatewayProxyHandler,
+  APIGatewayProxyResult,
+} from 'aws-lambda';
 import 'source-map-support/register';
 import ResponseModel from '../../models/response.model';
 import { StatusCode } from '../../enums/status-code.enum';
 import { ResponseMessage } from '../../enums/response-message.enum';
 import { TumeloImpl } from '../../models/tumelo.model';
+import { GetSubscribedOrganizationsRequest } from 'src/interfaces/tumelo.interface';
 
-export const getSubscribedOrganizations: APIGatewayProxyHandler = async (): Promise<APIGatewayProxyResult> => {
-  const {
-    TUMELO_URL
-  } = process.env;
+export const getSubscribedOrganizations: APIGatewayProxyHandler = async (
+  event: APIGatewayEvent
+): Promise<APIGatewayProxyResult> => {
+  const { TUMELO_URL } = process.env;
 
+  const pathParameter: GetSubscribedOrganizationsRequest = {
+    habitatId: event.pathParameters.habitatId,
+    instrumentId: event.pathParameters.instrumentId,
+  };
   const tumelo = new TumeloImpl(TUMELO_URL);
-
   const response = new ResponseModel();
+
   try {
-    const organizations = await tumelo.getSubscribedOrganizations();
+    const organizations = await tumelo.getSubscribedOrganizations(
+      pathParameter
+    );
     response.setCode(StatusCode.OK);
     response.setMessage(ResponseMessage.SUCCESS);
     response.setData(organizations);

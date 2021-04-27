@@ -1,4 +1,7 @@
-import { Tumelo } from '../interfaces/tumelo.interface';
+import {
+  GetSubscribedOrganizationsRequest,
+  Tumelo,
+} from '../interfaces/tumelo.interface';
 import * as Axios from 'axios';
 
 const axios = Axios.default;
@@ -35,26 +38,25 @@ export class TumeloImpl implements Tumelo {
     }
   }
 
-  public async getSubscribedOrganizations(): Promise<any> {
-    const { TUMELO_HABITAT_ID } = process.env;
+  public async getSubscribedOrganizations(
+    req: GetSubscribedOrganizationsRequest
+  ): Promise<any> {
     try {
       await this.setAuthToken();
-      console.log(this.token);
       const config: Axios.AxiosRequestConfig = {
-        url: `habitats/${TUMELO_HABITAT_ID}/instruments/GBICLIM00002/organizationBreakdown`,
+        url: `habitats/${req.habitatId}/instruments/${req.instrumentId}/organizationBreakdown`,
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${this.token}`,
         },
       };
-      console.log(config);
       const authResponse: Axios.AxiosResponse = await this.client.request(
         config
       );
       return authResponse.data;
     } catch (e) {
-        console.log(e);
+      console.log(e);
       throw e;
     }
   }

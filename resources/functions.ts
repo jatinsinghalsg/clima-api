@@ -5,7 +5,8 @@ export default {
       {
         http: {
           method: 'GET',
-          path: 'tumelo/subscribed/organizations',
+          path:
+            'habitats/{habitatId}/instruments/{instrumentId}/organizationBreakdown',
           cors: true,
         },
       },
