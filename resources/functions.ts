@@ -24,4 +24,17 @@ export default {
       },
     ],
   },
+  getAGMProposals: {
+    handler: 'handler.getAGMProposals',
+    events: [
+      {
+        http: {
+          method: 'GET',
+          path:
+            'organizations/{organizationId}/generalMeetings/{meetingId}/proposals',
+          cors: true,
+        },
+      },
+    ],
+  },
 };

@@ -1,4 +1,5 @@
 import {
+  GetAMGProposalsRequest,
   GetSubscribedOrganizationsRequest,
   Tumelo,
   UpcomingAGMRequest,
@@ -67,6 +68,27 @@ export class TumeloImpl implements Tumelo {
       await this.setAuthToken();
       const config: Axios.AxiosRequestConfig = {
         url: `organizations/${req.organizationId}/generalMeetings`,
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${this.token}`,
+        },
+      };
+      const authResponse: Axios.AxiosResponse = await this.client.request(
+        config
+      );
+      return authResponse.data;
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
+  }
+
+  public async getAGMProposals(req: GetAMGProposalsRequest): Promise<void> {
+    try {
+      await this.setAuthToken();
+      const config: Axios.AxiosRequestConfig = {
+        url: `organizations/${req.organizationId}/generalMeetings/${req.meetingId}/proposals`,
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
