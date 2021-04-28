@@ -12,4 +12,16 @@ export default {
       },
     ],
   },
+  upcomingAGM: {
+    handler: 'handler.upcomingAGM',
+    events: [
+      {
+        http: {
+          method: 'GET',
+          path: 'organizations/{organizationId}/generalMeetings',
+          cors: true,
+        },
+      },
+    ],
+  },
 };

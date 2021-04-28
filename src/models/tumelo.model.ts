@@ -1,6 +1,7 @@
 import {
   GetSubscribedOrganizationsRequest,
   Tumelo,
+  UpcomingAGMRequest,
 } from '../interfaces/tumelo.interface';
 import * as Axios from 'axios';
 
@@ -45,6 +46,27 @@ export class TumeloImpl implements Tumelo {
       await this.setAuthToken();
       const config: Axios.AxiosRequestConfig = {
         url: `habitats/${req.habitatId}/instruments/${req.instrumentId}/organizationBreakdown`,
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${this.token}`,
+        },
+      };
+      const authResponse: Axios.AxiosResponse = await this.client.request(
+        config
+      );
+      return authResponse.data;
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
+  }
+
+  public async upcomingAGM(req: UpcomingAGMRequest): Promise<any> {
+    try {
+      await this.setAuthToken();
+      const config: Axios.AxiosRequestConfig = {
+        url: `organizations/${req.organizationId}/generalMeetings`,
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
