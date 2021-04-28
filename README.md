@@ -1,6 +1,6 @@
-# Project Dashboard APIs
+# iClima APIs
 
-Project Dashboard serverless APIs
+iClima serverless APIs
 
 ## Prerequisites
 
